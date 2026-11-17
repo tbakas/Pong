@@ -8,7 +8,7 @@ from torch import save, load, Tensor, tensor, no_grad, zeros as torch_zeros, mul
 from torch.optim import Adam, AdamW
 from torch.utils.data import TensorDataset, DataLoader
 from torch.nn.functional import mse_loss
-from Game_AI.Pong.create_model import Model as Actor, Critic
+from create_model import Model as Actor, Critic
 
 output_file = 'version1.pth'
 replay_buffer = []
@@ -121,11 +121,11 @@ def reinforcement_training(data, temperature=1.0, gamma=0.99, ent=0.01, eps=0.2,
         val_loss /= val.shape[0]
         if val_loss < min_loss:
             min_loss = val_loss
-            save(critic.state_dict(), "critic_versions/critic.pth")
-            save(critic_optim.state_dict(), 'critic_versions/optim.pth')
+            save(critic.state_dict(), "critic.pth")
+            save(critic_optim.state_dict(), 'optim.pth')
 
-    critic.load_state_dict(load('critic_versions/critic.pth', weights_only=True))
-    critic_optim.load_state_dict(load('critic_versions/optim.pth', weights_only=True))
+    critic.load_state_dict(load('critic.pth', weights_only=True))
+    critic_optim.load_state_dict(load('optim.pth', weights_only=True))
     del train_loader, train_dataset, val_loader, val_dataset, train, val
 
     advantage = torch_zeros(t.shape[0] - n_trajectories)
