@@ -44,19 +44,3 @@ class Critic(Module):
 
     def forward(self, x):
         return self.sequential(x)
-
-
-if __name__ == '__main__':
-    model = Critic()
-    print('critic:', sum(p.numel() for p in model.parameters()), 'parameters')
-    save(model.state_dict(), "critic.pth")
-    optim = AdamW(model.parameters(), lr=1e-4)
-    save(optim.state_dict(), 'critic_optimizer.pth')
-
-    model = Model()
-    print('actor:', sum(p.numel() for p in model.parameters()), 'parameters')
-
-    optim = Adam(model.parameters(), lr=3e-4)
-    save(optim.state_dict(), 'model_optimizer.pth')
-
-    save(model.state_dict(), "actor.pth")
