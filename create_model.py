@@ -6,8 +6,6 @@ input_size = 6
 actor_hidden_size = 100
 actor_blocks = 3
 
-can_load = 0
-
 
 class Model(Module):
     def __init__(self):
@@ -51,17 +49,14 @@ class Critic(Module):
 if __name__ == '__main__':
     model = Critic()
     print('critic:', sum(p.numel() for p in model.parameters()), 'parameters')
-    save(model.state_dict(), "training_versions/critic_versions/critic.pth")
+    save(model.state_dict(), "critic.pth")
     optim = AdamW(model.parameters(), lr=1e-4)
-    save(optim.state_dict(), 'training_versions/critic_versions/optimizer.pth')
+    save(optim.state_dict(), 'critic_optimizer.pth')
 
     model = Model()
     print('actor:', sum(p.numel() for p in model.parameters()), 'parameters')
 
     optim = Adam(model.parameters(), lr=3e-4)
-    save(optim.state_dict(), 'training_versions/model_versions/optimizer.pth')
+    save(optim.state_dict(), 'model_optimizer.pth')
 
-    if can_load:
-        model.load_state_dict(load('training_versions/model_versions/super_ver1.pth', weights_only=True))
-
-    save(model.state_dict(), "training_versions/model_versions/actor.pth")
+    save(model.state_dict(), "actor.pth")
