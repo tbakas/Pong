@@ -20,19 +20,6 @@ class Model(Module):
         return self.sequential(x)
 
 
-class TrackModel(Module):
-    def __init__(self):
-        super().__init__()
-        layers = [Linear(6, actor_hidden_size), LeakyReLU()]
-        for i in range(actor_blocks):
-            layers.extend([Linear(actor_hidden_size, actor_hidden_size), LeakyReLU()])
-        layers.append(Linear(actor_hidden_size, 3))
-        self.sequential = Sequential(*layers)
-
-    def forward(self, x):
-        return self.sequential(x)
-
-
 class Critic(Module):
     def __init__(self):
         super().__init__()
